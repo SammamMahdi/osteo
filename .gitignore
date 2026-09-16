@@ -1,0 +1,11 @@
+# Model checkpoints and exported weights
+*.keras
+*.h5
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.safetensors
+
+# Jupyter autosave checkpoints
+**/.ipynb_checkpoints/
