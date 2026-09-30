@@ -1,0 +1,98 @@
+{
+  "model": "SVM",
+  "kind": "ml",
+  "img_size": [
+    128,
+    128
+  ],
+  "scale": "pm1",
+  "n_features": 49152,
+  "n_train": 1614,
+  "n_val": 229,
+  "n_test": 466,
+  "fit_time_s": 3.886172695994901,
+  "fit_time_min": 0.06476954493324835,
+  "seed": 42,
+  "versions": {
+    "python": "3.12.3",
+    "tensorflow": "2.20.0",
+    "keras": "3.12.0",
+    "numpy": "2.2.6",
+    "opencv": "4.12.0",
+    "pillow": "12.0.0",
+    "scikit-learn": "1.7.2",
+    "xgboost": "3.4.1",
+    "catboost": "1.2.10"
+  },
+  "train_accuracy": 0.9956629491945477,
+  "val_accuracy": 0.611353711790393,
+  "train_log_loss": 0.1698042555281489,
+  "val_log_loss": 0.9786076451605827,
+  "val_precision_weighted": 0.6191711753624269,
+  "val_recall_weighted": 0.611353711790393,
+  "val_f1_weighted": 0.6078947191925543,
+  "val_precision_macro": 0.6234217146929011,
+  "val_recall_macro": 0.6104276647707189,
+  "val_f1_macro": 0.6097011588078706,
+  "val_auc_macro": 0.8634388914913476,
+  "val_auc_micro": 0.8741538109494479,
+  "val_auc_weighted": 0.862101784605333,
+  "pca_components": 300,
+  "C": 10.0,
+  "kernel": "rbf",
+  "test_accuracy": 0.6201716738197425,
+  "test_precision_weighted": 0.6334848988851636,
+  "test_recall_weighted": 0.6201716738197425,
+  "test_f1_weighted": 0.6187410284701926,
+  "test_precision_macro": 0.6376884530120241,
+  "test_recall_macro": 0.6194407069347243,
+  "test_f1_macro": 0.6207010391213321,
+  "test_auc_macro": 0.8789423946966519,
+  "test_auc_micro": 0.8844931754130672,
+  "test_auc_weighted": 0.8777018983146051,
+  "auc_per_class": {
+    "0": 0.8902210769022108,
+    "1": 0.8266864833622327,
+    "2": 0.8336479066575154,
+    "3": 0.971150120704557,
+    "4": 0.873006385856743
+  },
+  "confusion_matrix": [
+    [
+      74,
+      19,
+      2,
+      2,
+      4
+    ],
+    [
+      28,
+      52,
+      10,
+      0,
+      9
+    ],
+    [
+      20,
+      15,
+      44,
+      3,
+      12
+    ],
+    [
+      3,
+      0,
+      3,
+      77,
+      6
+    ],
+    [
+      10,
+      22,
+      4,
+      5,
+      42
+    ]
+  ],
+  "finished_at": "2026-09-30T15:18:45"
+}

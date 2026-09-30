@@ -1,0 +1,96 @@
+{
+  "model": "NaiveBayes",
+  "kind": "ml",
+  "img_size": [
+    96,
+    96
+  ],
+  "scale": "01",
+  "n_features": 27648,
+  "n_train": 1614,
+  "n_val": 229,
+  "n_test": 466,
+  "fit_time_s": 2.1316433120009606,
+  "fit_time_min": 0.035527388533349344,
+  "seed": 42,
+  "versions": {
+    "python": "3.12.3",
+    "tensorflow": "2.20.0",
+    "keras": "3.12.0",
+    "numpy": "2.2.6",
+    "opencv": "4.12.0",
+    "pillow": "12.0.0",
+    "scikit-learn": "1.7.2",
+    "xgboost": "3.4.1",
+    "catboost": "1.2.10"
+  },
+  "train_accuracy": 0.5346964064436184,
+  "val_accuracy": 0.44541484716157204,
+  "train_log_loss": 3.3094762167196157,
+  "val_log_loss": 3.396055169839393,
+  "val_precision_weighted": 0.45479026068545725,
+  "val_recall_weighted": 0.44541484716157204,
+  "val_f1_weighted": 0.4227104826209415,
+  "val_precision_macro": 0.4584613212874083,
+  "val_recall_macro": 0.43925784890259967,
+  "val_f1_macro": 0.42267216792695983,
+  "val_auc_macro": 0.7640960246801795,
+  "val_auc_micro": 0.7474447474304456,
+  "val_auc_weighted": 0.761791799764809,
+  "pca_components": 200,
+  "test_accuracy": 0.38412017167381973,
+  "test_precision_weighted": 0.4122728107523423,
+  "test_recall_weighted": 0.38412017167381973,
+  "test_f1_weighted": 0.370484571694583,
+  "test_precision_macro": 0.4154188227273927,
+  "test_recall_macro": 0.3802065535293783,
+  "test_f1_macro": 0.3714539237328485,
+  "test_auc_macro": 0.6996745745222012,
+  "test_auc_micro": 0.6848498314575696,
+  "test_auc_weighted": 0.6979400550490426,
+  "auc_per_class": {
+    "0": 0.7271666892716669,
+    "1": 0.6865384086092533,
+    "2": 0.5481011210249371,
+    "3": 0.7953983250379996,
+    "4": 0.741168328667149
+  },
+  "confusion_matrix": [
+    [
+      71,
+      10,
+      12,
+      2,
+      6
+    ],
+    [
+      52,
+      22,
+      11,
+      3,
+      11
+    ],
+    [
+      48,
+      10,
+      18,
+      5,
+      13
+    ],
+    [
+      21,
+      3,
+      9,
+      43,
+      13
+    ],
+    [
+      30,
+      9,
+      8,
+      11,
+      25
+    ]
+  ],
+  "finished_at": "2026-09-30T15:19:00"
+}

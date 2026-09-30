@@ -1,0 +1,10 @@
+{
+  "model": "InceptionResNetV2",
+  "combo_id": "lr0.0003_do0.3_sgd_bs32",
+  "learning_rate": 0.0003,
+  "dropout_rate": 0.3,
+  "optimizer": "sgd",
+  "batch_size": 32,
+  "failed": true,
+  "error": "WorkerError: worker exited with code -6"
+}
