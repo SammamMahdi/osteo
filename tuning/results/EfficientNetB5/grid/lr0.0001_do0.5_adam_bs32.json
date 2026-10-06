@@ -1,0 +1,10 @@
+{
+  "model": "EfficientNetB5",
+  "combo_id": "lr0.0001_do0.5_adam_bs32",
+  "learning_rate": 0.0001,
+  "dropout_rate": 0.5,
+  "optimizer": "adam",
+  "batch_size": 32,
+  "failed": true,
+  "error": "WorkerError: worker exited with code -6"
+}

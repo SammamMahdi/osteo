@@ -1,0 +1,27 @@
+nohup: ignoring input
+[I 2026-10-02 03:06:16.562 ServerApp] jupyter_lsp | extension was successfully linked.
+[I 2026-10-02 03:06:16.564 ServerApp] jupyter_server_terminals | extension was successfully linked.
+[I 2026-10-02 03:06:16.565 ServerApp] jupyterlab | extension was successfully linked.
+[I 2026-10-02 03:06:16.567 ServerApp] notebook | extension was successfully linked.
+[I 2026-10-02 03:06:16.747 ServerApp] notebook_shim | extension was successfully linked.
+[I 2026-10-02 03:06:16.757 ServerApp] notebook_shim | extension was successfully loaded.
+[I 2026-10-02 03:06:16.759 ServerApp] jupyter_lsp | extension was successfully loaded.
+[I 2026-10-02 03:06:16.760 ServerApp] jupyter_server_terminals | extension was successfully loaded.
+[I 2026-10-02 03:06:16.764 LabApp] JupyterLab extension loaded from /home/rakin/tf_project/tf_env/lib/python3.12/site-packages/jupyterlab
+[I 2026-10-02 03:06:16.764 LabApp] JupyterLab application directory is /home/rakin/tf_project/tf_env/share/jupyter/lab
+[I 2026-10-02 03:06:16.765 LabApp] Extension Manager is 'pypi'.
+[I 2026-10-02 03:06:16.793 ServerApp] jupyterlab | extension was successfully loaded.
+[I 2026-10-02 03:06:16.795 ServerApp] notebook | extension was successfully loaded.
+[I 2026-10-02 03:06:16.796 ServerApp] Serving notebooks from local directory: /mnt/d/FA019/new/tuning
+[I 2026-10-02 03:06:16.796 ServerApp] Jupyter Server 2.17.0 is running at:
+[I 2026-10-02 03:06:16.796 ServerApp] http://localhost:8888/lab?token=a1d30a59570291203e85d652d86d8b86a5c36f1a937a7164
+[I 2026-10-02 03:06:16.796 ServerApp]     http://127.0.0.1:8888/lab?token=a1d30a59570291203e85d652d86d8b86a5c36f1a937a7164
+[I 2026-10-02 03:06:16.796 ServerApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 2026-10-02 03:06:16.798 ServerApp] 
+    
+    To access the server, open this file in a browser:
+        file:///home/rakin/.local/share/jupyter/runtime/jpserver-599-open.html
+    Or copy and paste one of these URLs:
+        http://localhost:8888/lab?token=a1d30a59570291203e85d652d86d8b86a5c36f1a937a7164
+        http://127.0.0.1:8888/lab?token=a1d30a59570291203e85d652d86d8b86a5c36f1a937a7164
+[I 2026-10-02 03:06:18.404 ServerApp] Skipped non-installed server(s): basedpyright, bash-language-server, dockerfile-language-server-nodejs, javascript-typescript-langserver, jedi-language-server, julia-language-server, pyrefly, pyright, python-language-server, python-lsp-server, r-languageserver, sql-language-server, texlab, typescript-language-server, unified-language-server, vscode-css-languageserver-bin, vscode-html-languageserver-bin, vscode-json-languageserver-bin, yaml-language-server

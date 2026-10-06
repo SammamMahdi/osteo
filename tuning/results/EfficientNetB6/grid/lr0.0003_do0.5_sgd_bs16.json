@@ -1,0 +1,10 @@
+{
+  "model": "EfficientNetB6",
+  "combo_id": "lr0.0003_do0.5_sgd_bs16",
+  "learning_rate": 0.0003,
+  "dropout_rate": 0.5,
+  "optimizer": "sgd",
+  "batch_size": 16,
+  "failed": true,
+  "error": "WorkerError: worker exited with code -6"
+}

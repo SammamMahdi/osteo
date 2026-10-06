@@ -1,0 +1,10 @@
+{
+  "model": "DenseNet121",
+  "combo_id": "lr0.001_do0.3_sgd_bs32",
+  "learning_rate": 0.001,
+  "dropout_rate": 0.3,
+  "optimizer": "sgd",
+  "batch_size": 32,
+  "failed": true,
+  "error": "WorkerError: worker exited with code -6"
+}
