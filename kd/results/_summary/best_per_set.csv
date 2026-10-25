@@ -1,0 +1,7 @@
+student,set,best config,test macro F1,test accuracy
+EfficientNetB0,A,ENB5+IRV2+D201,0.899,0.897
+EfficientNetB0,B,ENB5+R50,0.903,0.9013
+EfficientNetB2,A,D201,0.8926,0.8906
+EfficientNetB2,B,R50,0.8999,0.897
+MobileNetV2,A,ENB5+IRV2,0.8758,0.8734
+MobileNetV2,B,ENB5+IRV2,0.8758,0.8734

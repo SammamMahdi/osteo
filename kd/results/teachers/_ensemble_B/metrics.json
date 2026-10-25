@@ -1,0 +1,77 @@
+{
+  "model": "Fused set B (ENB5+IRV2+R50)",
+  "role": "ensemble",
+  "teacher_set": "B",
+  "teachers": [
+    "ENB5",
+    "IRV2",
+    "R50"
+  ],
+  "fusion": "mean of logits",
+  "params_total": 116940646,
+  "size_mb": 1219.788249015808,
+  "ms_per_image": 20.87669422498948,
+  "versions": {
+    "python": "3.12.3",
+    "tensorflow": "2.20.0",
+    "keras": "3.12.0",
+    "numpy": "2.2.6",
+    "opencv": "4.12.0",
+    "pillow": "12.0.0"
+  },
+  "test_accuracy": 0.9098712446351931,
+  "test_precision_weighted": 0.912169530830588,
+  "test_recall_weighted": 0.9098712446351931,
+  "test_f1_weighted": 0.9102080167799174,
+  "test_precision_macro": 0.9134375231616829,
+  "test_recall_macro": 0.9122691087274049,
+  "test_f1_macro": 0.9120643839984147,
+  "test_auc_macro": 0.9806307442253128,
+  "test_auc_micro": 0.9813970141280922,
+  "test_auc_weighted": 0.979948526065695,
+  "auc_per_class": {
+    "0": 0.9915231249152312,
+    "1": 0.9456967495114633,
+    "2": 0.9815259665980325,
+    "3": 0.9864840699788394,
+    "4": 0.9979238101229985
+  },
+  "confusion_matrix": [
+    [
+      91,
+      6,
+      3,
+      1,
+      0
+    ],
+    [
+      4,
+      83,
+      11,
+      0,
+      1
+    ],
+    [
+      0,
+      5,
+      87,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      4,
+      83,
+      2
+    ],
+    [
+      0,
+      1,
+      0,
+      2,
+      80
+    ]
+  ],
+  "finished_at": "2026-10-13T15:16:13"
+}

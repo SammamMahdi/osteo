@@ -1,0 +1,76 @@
+{
+  "model": "DenseNet201",
+  "role": "teacher",
+  "key": "D201",
+  "img_size": 224,
+  "params_total": 21866565,
+  "size_mb": 168.56607055664062,
+  "ms_per_image": 8.953910762511441,
+  "versions": {
+    "python": "3.12.3",
+    "tensorflow": "2.20.0",
+    "keras": "3.12.0",
+    "numpy": "2.2.6",
+    "opencv": "4.12.0",
+    "pillow": "12.0.0"
+  },
+  "learning_rate": 0.0003,
+  "dropout_rate": 0.3,
+  "optimizer": "sgd",
+  "batch_size": 32,
+  "test_accuracy": 0.8626609442060086,
+  "test_precision_weighted": 0.8679287911292886,
+  "test_recall_weighted": 0.8626609442060086,
+  "test_f1_weighted": 0.8592038013720851,
+  "test_precision_macro": 0.8714459271539919,
+  "test_recall_macro": 0.8666183925392472,
+  "test_f1_macro": 0.8633061243145278,
+  "test_auc_macro": 0.9737404581716163,
+  "test_auc_micro": 0.9754577354528542,
+  "test_auc_weighted": 0.9726881811286934,
+  "auc_per_class": {
+    "0": 0.985663908856639,
+    "1": 0.9238983843888475,
+    "2": 0.9736044383436284,
+    "3": 0.98940482222156,
+    "4": 0.9961307370474063
+  },
+  "confusion_matrix": [
+    [
+      95,
+      4,
+      0,
+      2,
+      0
+    ],
+    [
+      20,
+      63,
+      15,
+      0,
+      1
+    ],
+    [
+      4,
+      4,
+      83,
+      3,
+      0
+    ],
+    [
+      1,
+      0,
+      4,
+      82,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      4,
+      79
+    ]
+  ],
+  "finished_at": "2026-10-13T15:16:10"
+}

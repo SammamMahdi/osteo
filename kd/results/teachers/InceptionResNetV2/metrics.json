@@ -1,0 +1,76 @@
+{
+  "model": "InceptionResNetV2",
+  "role": "teacher",
+  "key": "IRV2",
+  "img_size": 224,
+  "params_total": 57488101,
+  "size_mb": 660.3594255447388,
+  "ms_per_image": 10.109243224997044,
+  "versions": {
+    "python": "3.12.3",
+    "tensorflow": "2.20.0",
+    "keras": "3.12.0",
+    "numpy": "2.2.6",
+    "opencv": "4.12.0",
+    "pillow": "12.0.0"
+  },
+  "learning_rate": 0.0001,
+  "dropout_rate": 0.5,
+  "optimizer": "adam",
+  "batch_size": 16,
+  "test_accuracy": 0.8733905579399142,
+  "test_precision_weighted": 0.8767133864717006,
+  "test_recall_weighted": 0.8733905579399142,
+  "test_f1_weighted": 0.8741070840730845,
+  "test_precision_macro": 0.8791846851346147,
+  "test_recall_macro": 0.8761560161269749,
+  "test_f1_macro": 0.8767411589241666,
+  "test_auc_macro": 0.9736378013750594,
+  "test_auc_micro": 0.9764144209692571,
+  "test_auc_weighted": 0.9729804969570274,
+  "auc_per_class": {
+    "0": 0.9845246168452463,
+    "1": 0.9381553959210636,
+    "2": 0.9776366964081445,
+    "3": 0.977215152147349,
+    "4": 0.9906571455534933
+  },
+  "confusion_matrix": [
+    [
+      88,
+      7,
+      5,
+      1,
+      0
+    ],
+    [
+      8,
+      78,
+      13,
+      0,
+      0
+    ],
+    [
+      0,
+      7,
+      83,
+      4,
+      0
+    ],
+    [
+      0,
+      2,
+      4,
+      80,
+      3
+    ],
+    [
+      0,
+      1,
+      2,
+      2,
+      78
+    ]
+  ],
+  "finished_at": "2026-10-13T15:15:42"
+}

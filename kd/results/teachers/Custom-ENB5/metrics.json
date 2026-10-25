@@ -1,0 +1,76 @@
+{
+  "model": "Custom-ENB5",
+  "role": "teacher",
+  "key": "ENB5",
+  "img_size": 224,
+  "params_total": 32189180,
+  "size_mb": 247.0304937362671,
+  "ms_per_image": 7.7674136874975375,
+  "versions": {
+    "python": "3.12.3",
+    "tensorflow": "2.20.0",
+    "keras": "3.12.0",
+    "numpy": "2.2.6",
+    "opencv": "4.12.0",
+    "pillow": "12.0.0"
+  },
+  "learning_rate": 0.0001,
+  "dropout_rate": 0.3,
+  "optimizer": "rmsprop",
+  "batch_size": 32,
+  "test_accuracy": 0.8798283261802575,
+  "test_precision_weighted": 0.8825405190433485,
+  "test_recall_weighted": 0.8798283261802575,
+  "test_f1_weighted": 0.8798751549409787,
+  "test_precision_macro": 0.8843294401397573,
+  "test_recall_macro": 0.8843333723185935,
+  "test_f1_macro": 0.8830735662409384,
+  "test_auc_macro": 0.974569537149217,
+  "test_auc_micro": 0.9754934240822266,
+  "test_auc_weighted": 0.9736627034128476,
+  "auc_per_class": {
+    "0": 0.9864776888647768,
+    "1": 0.928825035092065,
+    "2": 0.976721574010524,
+    "3": 0.9864542663845259,
+    "4": 0.9943691213941929
+  },
+  "confusion_matrix": [
+    [
+      84,
+      13,
+      3,
+      1,
+      0
+    ],
+    [
+      5,
+      78,
+      14,
+      0,
+      2
+    ],
+    [
+      0,
+      7,
+      84,
+      2,
+      1
+    ],
+    [
+      0,
+      0,
+      3,
+      83,
+      3
+    ],
+    [
+      0,
+      0,
+      0,
+      2,
+      81
+    ]
+  ],
+  "finished_at": "2026-10-13T15:15:15"
+}

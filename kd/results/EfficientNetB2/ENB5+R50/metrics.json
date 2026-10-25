@@ -1,0 +1,102 @@
+{
+  "model": "EfficientNetB2 [ENB5+R50]",
+  "student": "EfficientNetB2",
+  "config": "ENB5+R50",
+  "role": "student",
+  "teacher_set": "B",
+  "teachers": [
+    "ENB5",
+    "R50"
+  ],
+  "n_teachers": 2,
+  "temperature": 3.0,
+  "alpha": 0.3,
+  "fusion": "mean of logits",
+  "img_size": 224,
+  "batch_size": 32,
+  "learning_rate": 0.0001,
+  "params_total": 8130558,
+  "size_mb": 32.15263366699219,
+  "ms_per_image": 4.765649093769753,
+  "max_epochs": 300,
+  "patience": 10,
+  "seed": 42,
+  "versions": {
+    "python": "3.12.3",
+    "tensorflow": "2.19.0",
+    "keras": "3.10.0",
+    "numpy": "2.1.3",
+    "opencv": "4.12.0",
+    "pillow": "11.3.0"
+  },
+  "n_train": 1614,
+  "n_val": 229,
+  "n_test": 466,
+  "epochs_run": 300,
+  "best_epoch": 300,
+  "stopped_early": false,
+  "best_val_loss": 0.48941540718078613,
+  "val_accuracy_at_best": 0.8831295967102051,
+  "final_val_accuracy": 0.8831295967102051,
+  "max_val_accuracy": 0.8831295967102051,
+  "fit_time_s": 3066.8639164650012,
+  "fit_time_min": 51.11439860775002,
+  "time_to_best_s": 3066.206995095963,
+  "epoch1_s": 123.51798253499874,
+  "median_epoch_s": 9.816536866004753,
+  "test_accuracy": 0.8819742489270386,
+  "test_precision_weighted": 0.8821246190184746,
+  "test_recall_weighted": 0.8819742489270386,
+  "test_f1_weighted": 0.880325048580113,
+  "test_precision_macro": 0.885241557622189,
+  "test_recall_macro": 0.8859140108988275,
+  "test_f1_macro": 0.8839328741876031,
+  "test_auc_macro": 0.9746668688445379,
+  "test_auc_micro": 0.9764961594429813,
+  "test_auc_weighted": 0.9739718565620236,
+  "auc_per_class": {
+    "0": 0.9897599348975993,
+    "1": 0.9381553959210636,
+    "2": 0.9721459620224205,
+    "3": 0.9773939737132299,
+    "4": 0.9958790776683759
+  },
+  "confusion_matrix": [
+    [
+      92,
+      5,
+      3,
+      1,
+      0
+    ],
+    [
+      16,
+      71,
+      11,
+      0,
+      1
+    ],
+    [
+      0,
+      7,
+      85,
+      2,
+      0
+    ],
+    [
+      1,
+      0,
+      2,
+      82,
+      4
+    ],
+    [
+      0,
+      1,
+      0,
+      1,
+      81
+    ]
+  ],
+  "finished_at": "2026-10-14T18:26:35"
+}

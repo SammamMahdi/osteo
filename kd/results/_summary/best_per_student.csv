@@ -1,0 +1,4 @@
+student,params_M,best config,test macro F1,test accuracy,control (no teacher),KD gain,ms/img
+EfficientNetB0,4.38,ENB5+R50,0.903,0.9013,0.8332,0.0698,3.92
+EfficientNetB2,8.13,R50,0.8999,0.897,0.8584,0.0415,5.09
+MobileNetV2,2.59,ENB5+IRV2,0.8758,0.8734,0.8546,0.0212,2.13
