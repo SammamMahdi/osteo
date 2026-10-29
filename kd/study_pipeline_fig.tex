@@ -1,0 +1,65 @@
+\begin{tikzpicture}[
+  font=\footnotesize,
+  phase/.style={draw, rounded corners=2pt, align=left, inner sep=5pt, text width=9.1cm},
+  result/.style={draw, rounded corners=2pt, align=left, inner sep=5pt, text width=3.5cm,
+                 fill=black!4},
+  final/.style={result, very thick},
+  total/.style={draw, rounded corners=2pt, align=center, inner sep=5pt, text width=13.2cm},
+  flow/.style={-{Latex[length=2mm]}, thick},
+  tie/.style={-{Latex[length=1.6mm]}, draw=black!55}
+]
+\node[phase] (p0)
+  {\textbf{Phase 0 \quad Baseline, the original notebooks}\\
+   Ten ImageNet backbones, frozen, with a Dense(5) head; Adam $10^{-4}$, batch 32.\\
+   100 epochs, no early stopping, last-epoch weights evaluated, no weights saved.\\
+   Custom-ENB5 trained apart with the backbone fully fine-tuned.};
+\node[result, right=4mm of p0] (r0)
+  {\textbf{0.56--0.65}\\test accuracy, frozen\\[2pt]\textbf{0.895}\\Custom-ENB5};
+
+\node[phase, below=12mm of p0] (p1)
+  {\textbf{Phase 1 \quad Teacher screening} \hfill \texttt{teacher/}\\
+   17 backbones: EfficientNetB0--B7, ResNet50/101, DenseNet121/201, InceptionV3,
+   InceptionResNetV2, MobileNetV2, Twins-SVT-S, PVTv2-B2.\\
+   The same frozen recipe, now with early stopping (patience 10, best weights restored) and
+   a 300-epoch cap; curves, confusion matrix, ROC and timings saved per model.\\
+   11.0 GPU-hours.};
+\node[result, right=4mm of p1] (r1)
+  {\textbf{0.609}\\best macro F1\\(InceptionResNetV2)\\[2pt]frozen transfer\\saturates near 0.60};
+
+\node[phase, below=12mm of p1] (p2)
+  {\textbf{Phase 2 \quad Hyperparameter tuning} \hfill \texttt{tuning/}\\
+   15 backbones $\times$ 36 combinations: lr $\{10^{-4}, 3\cdot10^{-4}, 10^{-3}\}$ $\times$
+   dropout $\{0.3, 0.5\}$ $\times$ \{RMSprop, Adam, SGD\} $\times$ batch $\{16, 32\}$.\\
+   Backbone fully unfrozen, 300-epoch cap with early stopping: 533 runs, 102.3 GPU-hours.\\
+   Five classical baselines on BPHE pixels; best RandomForest at 0.646 macro F1.};
+\node[result, right=4mm of p2] (r2)
+  {\textbf{0.883} Custom-ENB5\\\textbf{0.877} IRV2\\\textbf{0.875} ResNet50\\\textbf{0.863} DenseNet201\\[2pt]
+   fine-tuning adds\\$+0.23$ to $+0.34$};
+
+\node[phase, below=12mm of p2] (p3)
+  {\textbf{Phase 3 \quad Multi-teacher distillation} \hfill \texttt{kd/}\\
+   Teacher logits fused with equal weights into soft targets;
+   $L=\alpha\cdot\mathrm{CE}+(1-\alpha)\cdot T^2\cdot\mathrm{KL}$.\\
+   Two teacher sets, every subset of size 1, 2 and 3: 12 configurations $\times$ 3 students
+   = 36 runs, 25.9 GPU-hours.\\
+   A $3\times3$ sweep over $T$ and $\alpha$ on the winning student and teacher pair.};
+\node[final, right=4mm of p3] (r3)
+  {\textbf{0.9095} macro F1\\EfficientNetB0\\{}[ENB5+R50], $T=3$,\\$\alpha=0.5$\\[2pt]\textbf{17.5 MB},
+   3.9 ms/image};
+
+\node[total, below=10mm of p3.south west, anchor=north west] (tot)
+  {One fixed split throughout: 1,614 train $\cdot$ 229 val $\cdot$ 466 test.
+   Roughly 600 trainings and 139 GPU-hours on one RTX 4090.};
+
+\draw[flow] (p0) -- node[right, font=\scriptsize, align=left]
+  {\ the same recipe, plus early stopping and saved weights} (p1);
+\draw[flow] (p1) -- node[right, font=\scriptsize, align=left]
+  {\ the strongest backbones by macro F1, now fine-tuned end to end} (p2);
+\draw[flow] (p2) -- node[right, font=\scriptsize, align=left]
+  {\ four teachers, each at its winning configuration} (p3);
+\draw[flow] (p3.south) -- (p3.south |- tot.north);
+\draw[tie] (p0) -- (r0);
+\draw[tie] (p1) -- (r1);
+\draw[tie] (p2) -- (r2);
+\draw[tie] (p3) -- (r3);
+\end{tikzpicture}

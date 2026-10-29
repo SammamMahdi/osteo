@@ -125,6 +125,23 @@ individual teacher, within 0.3 points of the 1.2\,GB fused ensemble it was disti
 smaller than that ensemble. The same student trained on hard labels alone reaches 0.8332 macro F1, so distillation is worth
 7.0 points to it.
 
+\section{The Study End to End}
+This report covers the last of four phases. The earlier three decided which models deserved to be
+teachers, and Figure~\ref{fig:study} places the distillation step in that sequence: a frozen-backbone
+baseline, a screening pass that added early stopping and saved weights, a grid search that unfroze the
+backbones and more than doubled the macro F1, and finally distillation, which beat every individual
+teacher with a model one seventieth of the fused ensemble's size.
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{\input{study_pipeline_fig}}
+\caption{The whole study, from the baseline notebooks to multi-teacher distillation. The right-hand column
+carries each phase's headline test-set result, so the progression 0.61 to 0.88 to 0.91 macro F1 can be read
+down the page. Arrows name what each phase passed to the next.}
+\label{fig:study}
+\end{figure}
+\FloatBarrier
+
 \section{Experimental Setup}
 \begin{table}[H]
 \centering
