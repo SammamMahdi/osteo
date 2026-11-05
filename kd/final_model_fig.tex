@@ -1,0 +1,95 @@
+\begin{tikzpicture}[
+  font=\footnotesize,
+  layer/.style={draw, rounded corners=2pt, align=center, inner sep=4pt, minimum height=10mm,
+                text width=21mm},
+  result/.style={layer, very thick},
+  fmap/.style={draw, fill=black!6, rounded corners=1pt},
+  teach/.style={draw, rounded corners=2pt, align=center, inner sep=3pt, minimum height=10mm,
+                text width=27mm},
+  flow/.style={-{Latex[length=2mm]}, thick},
+  train/.style={-{Latex[length=2mm]}, thick, dashed}
+]
+
+% ---- input ----------------------------------------------------------------------------------------
+\node[draw, rounded corners=2pt, align=center, inner sep=4pt, text width=17mm] (img) at (0,0)
+  {\textbf{Knee X-ray}\\$224^2{\times}3$};
+\node[fmap, minimum width=0.60cm, minimum height=2.55cm] (b0) at (1.95,0) {};
+\node[anchor=south, font=\scriptsize\bfseries] at (1.95,1.35) {Stem};
+\node[anchor=north, font=\tiny, align=center] at (1.95,-1.72) {Conv $3{\times}3$\\$112^2{\times}32$};
+\node[fmap, minimum width=0.54cm, minimum height=2.55cm] (b1) at (3.57,0) {};
+\node[anchor=south, font=\scriptsize\bfseries] at (3.57,1.35) {S1};
+\node[anchor=north, font=\tiny, align=center] at (3.57,-1.72) {MBConv $k3$ $\times$1\\$112^2{\times}16$};
+\node[fmap, minimum width=0.58cm, minimum height=1.85cm] (b2) at (5.19,0) {};
+\node[anchor=south, font=\scriptsize\bfseries] at (5.19,1.01) {S2};
+\node[anchor=north, font=\tiny, align=center] at (5.19,-1.72) {MBConv $k3$ $\times$2\\$56^2{\times}24$};
+\node[fmap, minimum width=0.62cm, minimum height=1.35cm] (b3) at (6.81,0) {};
+\node[anchor=south, font=\scriptsize\bfseries] at (6.81,0.76) {S3};
+\node[anchor=north, font=\tiny, align=center] at (6.81,-1.72) {MBConv $k5$ $\times$2\\$28^2{\times}40$};
+\node[fmap, minimum width=0.68cm, minimum height=0.98cm] (b4) at (8.43,0) {};
+\node[anchor=south, font=\scriptsize\bfseries] at (8.43,0.57) {S4};
+\node[anchor=north, font=\tiny, align=center] at (8.43,-1.72) {MBConv $k3$ $\times$3\\$14^2{\times}80$};
+\node[fmap, minimum width=0.71cm, minimum height=0.98cm] (b5) at (10.05,0) {};
+\node[anchor=south, font=\scriptsize\bfseries] at (10.05,0.57) {S5};
+\node[anchor=north, font=\tiny, align=center] at (10.05,-1.72) {MBConv $k5$ $\times$3\\$14^2{\times}112$};
+\node[fmap, minimum width=0.76cm, minimum height=0.72cm] (b6) at (11.67,0) {};
+\node[anchor=south, font=\scriptsize\bfseries] at (11.67,0.44) {S6};
+\node[anchor=north, font=\tiny, align=center] at (11.67,-1.72) {MBConv $k5$ $\times$4\\$7^2{\times}192$};
+\node[fmap, minimum width=0.80cm, minimum height=0.72cm] (b7) at (13.29,0) {};
+\node[anchor=south, font=\scriptsize\bfseries] at (13.29,0.44) {S7};
+\node[anchor=north, font=\tiny, align=center] at (13.29,-1.72) {MBConv $k3$ $\times$1\\$7^2{\times}320$};
+\node[fmap, minimum width=0.92cm, minimum height=0.72cm] (b8) at (14.91,0) {};
+\node[anchor=south, font=\scriptsize\bfseries] at (14.91,0.44) {Top conv};
+\node[anchor=north, font=\tiny, align=center] at (14.91,-1.72) {Conv $1{\times}1$\\$7^2{\times}1280$};
+
+\draw[flow] (img.east) -- (b0.west);
+\draw[flow, shorten >=1pt, shorten <=1pt] (b0.east) -- (b1.west);
+\draw[flow, shorten >=1pt, shorten <=1pt] (b1.east) -- (b2.west);
+\draw[flow, shorten >=1pt, shorten <=1pt] (b2.east) -- (b3.west);
+\draw[flow, shorten >=1pt, shorten <=1pt] (b3.east) -- (b4.west);
+\draw[flow, shorten >=1pt, shorten <=1pt] (b4.east) -- (b5.west);
+\draw[flow, shorten >=1pt, shorten <=1pt] (b5.east) -- (b6.west);
+\draw[flow, shorten >=1pt, shorten <=1pt] (b6.east) -- (b7.west);
+\draw[flow, shorten >=1pt, shorten <=1pt] (b7.east) -- (b8.west);
+
+\begin{scope}[on background layer]
+\node[draw, dotted, rounded corners=3pt, fit=(b0)(b8), inner sep=8pt,
+      label={[font=\scriptsize\bfseries, text=black!65]above:EfficientNet-B0 backbone \textemdash\
+             4{,}049{,}571 parameters, all fine-tuned}] (bbox) {};
+\end{scope}
+
+% ---- classification head --------------------------------------------------------------------------
+\node[layer] (gap) at (0,-3.9) {\textbf{Global average pooling}\\$1280$};
+\node[layer, right=7mm of gap] (d1) {\textbf{Dense 256}\\swish};
+\node[layer, right=7mm of d1] (do) {\textbf{Dropout}\\$p=0.3$};
+\node[layer, right=7mm of do] (d2) {\textbf{Dense 5}\\logits $z_S$};
+\node[layer, right=7mm of d2] (sm) {\textbf{Softmax}\\$P_S$};
+\node[result, right=7mm of sm] (kl) {\textbf{KL grade}\\0, 1, 2, 3 or 4};
+
+\draw[flow] (bbox.south east) -- ++(0,-1.30) -| (gap.north);
+\draw[flow] (gap) -- (d1);
+\draw[flow] (d1) -- (do);
+\draw[flow] (do) -- (d2);
+\draw[flow] (d2) -- (sm);
+\draw[flow] (sm) -- (kl);
+
+% ---- training-time path, discarded once training ends ----------------------------------------------
+\node[teach] (t1) at (0,-6.4) {\textbf{Custom-ENB5}\\247\,MB, frozen};
+\node[teach] (t2) at (0,-8.0) {\textbf{ResNet50}\\312\,MB, frozen};
+\node[teach, text width=33mm] (fuse) at (5.2,-7.2)
+  {\textbf{Mean of logits}\\$P_T=\mathrm{softmax}(z_F/T)$,\ $T=3$};
+\node[teach, text width=46mm] (loss) at (10.8,-7.2)
+  {\textbf{Distillation loss}\\$L=\alpha\,\mathrm{CE}+(1-\alpha)\,T^2\,\mathrm{KL}$,\ $\alpha=0.5$};
+\draw[train] (t1.east) -- (fuse.west);
+\draw[train] (t2.east) -- (fuse.west);
+\draw[train] (fuse) -- (loss);
+\draw[train] (loss.north) -- ++(0,0.95) -| (d2.south);
+\begin{scope}[on background layer]
+\node[draw, dashed, rounded corners=3pt, fit=(t1)(t2)(fuse)(loss), inner sep=7pt,
+      label={[font=\scriptsize\bfseries, text=black!65, yshift=-1mm]above left:TRAINING ONLY
+             \textemdash\ the teachers are not deployed}] (trainbox) {};
+\end{scope}
+
+\node[anchor=north west, align=left, font=\scriptsize, text=black!65] at (0,-9.6)
+  {Deployed model: 4.38\,M parameters $\cdot$ 17.5\,MB on disk $\cdot$ 3.5\,ms per image\\
+   Test accuracy 0.9077 $\cdot$ macro F1 0.9095 $\cdot$ macro AUC 0.9770};
+\end{tikzpicture}

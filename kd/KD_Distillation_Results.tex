@@ -155,8 +155,9 @@ Data & 1,614 training, 229 validation, and 466 test knee radiographs; KL grades 
 shared by every teacher, student, and control. \\
 Preprocessing & Each backbone's native \texttt{preprocess\_input} and nothing else, matching the
 hyperparameter-tuning phase. \\
-Input & RGB images resized to $224\times224$ for the students; each teacher keeps the resolution it was
-tuned at. \\
+Input & RGB images resized to $224\times224$ for every model. Phase 2 tuned all fifteen backbones at that
+size, following notebook 3, so the teachers are evaluated here at exactly the resolution they were tuned
+at. \\
 Training augmentation & Rotation $30^\circ$; width/height shift 0.2; shear 0.2; zoom 0.2; horizontal flip;
 brightness 0.8--1.2; nearest fill. \\
 Teachers & Four backbones, each loaded at its grid-search winning configuration with the backbone fully
@@ -177,45 +178,7 @@ Software & Python 3.12.3; TensorFlow 2.20.0; Keras 3.12.0; NumPy 2.2.6; OpenCV 4
 
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[
-  font=\footnotesize,
-  box/.style={draw, rounded corners=2pt, align=left, inner sep=4pt, minimum height=8mm},
-  wide/.style={box, text width=13.2cm},
-  half/.style={box, text width=6.2cm},
-  main/.style={wide, very thick},
-  flow/.style={-{Latex[length=2mm]}, thick}
-]
-\node[wide] (data) at (0,0)
-  {\textbf{Dataset, one fixed split}\\1,614 train $\cdot$ 229 val $\cdot$ 466 test radiographs $\cdot$ KL grades 0--4};
-\node[half] (teach) at (-3.6,-2.0)
-  {\textbf{Four tuned teachers}\\Custom-ENB5 $\cdot$ RMSprop $10^{-4}$ $\cdot$ dropout 0.3\\InceptionResNetV2 $\cdot$ Adam $10^{-4}$ $\cdot$ dropout 0.5\\ResNet50 $\cdot$ Adam $10^{-4}$ $\cdot$ dropout 0.3\\DenseNet201 $\cdot$ SGD $3\cdot10^{-4}$ $\cdot$ dropout 0.3};
-\node[half] (stud) at (3.6,-2.0)
-  {\textbf{Student, ImageNet initialised}\\MobileNetV2 $\cdot$ EfficientNetB0 $\cdot$ EfficientNetB2\\GAP, Dense(256, swish), dropout 0.3\\then Dense(5), linear logits $z_S$};
-\node[half] (logit) at (-3.6,-4.3)
-  {\textbf{Softmax head replaced by linear}\\each teacher emits logits $z_i$, weights frozen};
-\node[half] (slogit) at (3.6,-4.3)
-  {\textbf{Student logits} $z_S$\\$P_S=\mathrm{softmax}(z_S/T)$};
-\node[half] (fuse) at (-3.6,-6.0)
-  {\textbf{Equal-weight logit fusion}\\$z_F=\frac{1}{n}\sum_i z_i$ over the configuration};
-\node[half] (soft) at (-3.6,-7.7)
-  {\textbf{Soft targets}\\$P_T=\mathrm{softmax}(z_F/T)$, $T=3$};
-\node[main] (obj) at (0,-9.6)
-  {\textbf{Training objective}\\$L=\alpha\cdot\mathrm{CE}(y,z_S)+(1-\alpha)\cdot T^2\cdot\mathrm{KL}(P_T\,\|\,P_S)$\\Adam $10^{-4}$ $\cdot$ batch 32 $\cdot$ up to 300 epochs $\cdot$ early stop on hard-label validation CE};
-\node[wide] (runs) at (0,-11.4)
-  {\textbf{12 teacher configurations $\times$ 3 students = 36 runs}\\each in a fresh subprocess; finished runs are skipped on a re-run};
-\node[wide] (eval) at (0,-13.0)
-  {\textbf{Test evaluation, 466 images}\\accuracy $\cdot$ macro F1 $\cdot$ macro AUC $\cdot$ confusion matrix $\cdot$ ROC $\cdot$ size $\cdot$ ms per image};
-\draw[flow] (data.south -| teach.north) -- node[right,font=\scriptsize] {images} (teach.north);
-\draw[flow] (data.south -| stud.north) -- node[right,font=\scriptsize] {images, labels} (stud.north);
-\draw[flow] (teach) -- (logit);
-\draw[flow] (logit) -- (fuse);
-\draw[flow] (fuse) -- (soft);
-\draw[flow] (stud) -- (slogit);
-\draw[flow] (soft.south) -- (obj.north -| soft.south);
-\draw[flow] (slogit.south) -- (obj.north -| slogit.south);
-\draw[flow] (obj) -- (runs);
-\draw[flow] (runs) -- (eval);
-\end{tikzpicture}
+\resizebox{\textwidth}{!}{\input{kd_pipeline_fig}}
 \caption{The distillation pipeline. The two paths meet only at the loss: teachers are never updated, they
 run a forward pass on each batch, their logits are averaged, and the student pays for disagreeing with that
 average as well as for getting the label wrong.}
