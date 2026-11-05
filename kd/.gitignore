@@ -1,2 +1,7 @@
 # written automatically by the notebook at run time
 kd_worker.py
+*.log
+*.aux
+*.out
+*.bbl
+*.blg
