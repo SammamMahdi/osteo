@@ -77,6 +77,20 @@ if want archive; then
   done
 fi
 
+# Running a single stage without archiving first would silently keep the old results: every run is
+# skipped when its metrics.json already exists, so nothing would be retrained.
+if ! want keepresults; then
+  for stage in teacher tuning kd; do
+    want "$(printf '%s' "$stage" | sed 's/^teacher$/screening/')" || continue
+    if [ -d "$REPO/$stage/results" ] && [ ! -d "$REPO/$stage/results$ARCHIVE_SUFFIX" ]; then
+      echo "ERROR: $stage/results still holds the results of the old split." >&2
+      echo "       Run the archive stage first, or pass keepresults to train into it deliberately:" >&2
+      echo "         ./scripts/rerun_reported.sh archive $* " >&2
+      exit 1
+    fi
+  done
+fi
+
 # ── 3. Stage II, the screened architectures ─────────────────────────────────
 if want screening; then
   OSTEO_MODELS=all run_notebook screening "$REPO/teacher" Teacher_Screening_EarlyStopping.ipynb
