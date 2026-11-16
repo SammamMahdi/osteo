@@ -55,7 +55,44 @@ The grid search is **not** repeated: each tuned model is trained once, at the co
 reports, which is what `tuning/results/<Model>/best/` holds. Names and directories are unchanged, so the
 new results are drop-in replacements.
 
-## Running it
+## Already trained? Just run the weights
+
+If the models have already been retrained on the corrected split and the checkpoints are sitting in the
+results tree under their usual names, nothing needs retraining. `evaluate_weights.py` loads each one,
+runs the test subset through it and rewrites that run's metrics, classification report, confusion matrix,
+per-image predictions and figures in place, then rebuilds each stage's `_summary` tables and comparison
+figures from those files.
+
+```bash
+cd /mnt/d/FA019/new
+./scripts/run_evaluation.sh                # all three stages, then commit and push
+./scripts/run_evaluation.sh kd             # one stage
+./scripts/run_evaluation.sh all nopush     # evaluate, leave the commit to you
+./scripts/run_evaluation.sh dryrun         # list the checkpoints it would evaluate
+```
+
+`scripts/run_evaluation.bat` is the Windows wrapper. Checkpoints it looks for:
+
+| file | what it is |
+|---|---|
+| `teacher/results/<Model>/best.keras` | the 15 screened Keras architectures |
+| `teacher/results/<Model>/head_best.pt` | Twins-SVT-S and PVTv2-B2, reported as skipped |
+| `tuning/results/<Model>/best/best.keras` | each tuned model at its winning configuration |
+| `tuning/results/Custom-ENB5/best.keras` | the customised EfficientNet-B5 |
+| `kd/results/teachers/<Teacher>/teacher.keras` | the four distillation teachers |
+| `kd/results/<Student>/<config>/student.keras` | the 36 distillation runs |
+| `kd/results/_sweep/.../student.keras` | the temperature sweep |
+
+The fused ensembles are recomputed from the teachers' cached `test_logits.npy`. The five classical
+baselines keep no weights file and are refitted, which takes seconds. Anything whose checkpoint is
+missing is listed as skipped rather than silently passed over, and the script exits non-zero if any run
+fails.
+
+The configuration, parameter counts, epoch counts and timings in each `metrics.json` are carried over
+from the existing file; only the test-set block and the subset sizes are recomputed. Expect well under
+an hour for all 88 runs.
+
+## Running the training from scratch
 
 ```bash
 cd /mnt/d/FA019/new
