@@ -1,0 +1,200 @@
+{
+ "note": "Runs reported in the paper: every result folder that produced a confusion matrix.",
+ "screening": [
+  "DenseNet121",
+  "DenseNet201",
+  "EfficientNetB0",
+  "EfficientNetB1",
+  "EfficientNetB2",
+  "EfficientNetB3",
+  "EfficientNetB4",
+  "EfficientNetB5",
+  "EfficientNetB6",
+  "EfficientNetB7",
+  "InceptionResNetV2",
+  "InceptionV3",
+  "MobileNetV2",
+  "PVTv2-B2",
+  "ResNet101",
+  "ResNet50",
+  "Twins-SVT-S"
+ ],
+ "tuning_dl": [
+  {
+   "model": "InceptionResNetV2",
+   "learning_rate": 0.0001,
+   "dropout_rate": 0.5,
+   "optimizer": "adam",
+   "batch_size": 16
+  },
+  {
+   "model": "ResNet50",
+   "learning_rate": 0.0001,
+   "dropout_rate": 0.3,
+   "optimizer": "adam",
+   "batch_size": 32
+  },
+  {
+   "model": "EfficientNetB7",
+   "learning_rate": 0.0001,
+   "dropout_rate": 0.3,
+   "optimizer": "adam",
+   "batch_size": 16
+  },
+  {
+   "model": "DenseNet201",
+   "learning_rate": 0.0003,
+   "dropout_rate": 0.3,
+   "optimizer": "sgd",
+   "batch_size": 32
+  },
+  {
+   "model": "EfficientNetB4",
+   "learning_rate": 0.0003,
+   "dropout_rate": 0.5,
+   "optimizer": "sgd",
+   "batch_size": 16
+  },
+  {
+   "model": "EfficientNetB0",
+   "learning_rate": 0.0003,
+   "dropout_rate": 0.3,
+   "optimizer": "adam",
+   "batch_size": 32
+  },
+  {
+   "model": "EfficientNetB1",
+   "learning_rate": 0.0001,
+   "dropout_rate": 0.5,
+   "optimizer": "rmsprop",
+   "batch_size": 32
+  },
+  {
+   "model": "EfficientNetB2",
+   "learning_rate": 0.0001,
+   "dropout_rate": 0.3,
+   "optimizer": "adam",
+   "batch_size": 32
+  },
+  {
+   "model": "EfficientNetB3",
+   "learning_rate": 0.001,
+   "dropout_rate": 0.5,
+   "optimizer": "sgd",
+   "batch_size": 16
+  },
+  {
+   "model": "EfficientNetB5",
+   "learning_rate": 0.001,
+   "dropout_rate": 0.5,
+   "optimizer": "sgd",
+   "batch_size": 16
+  },
+  {
+   "model": "EfficientNetB6",
+   "learning_rate": 0.001,
+   "dropout_rate": 0.5,
+   "optimizer": "sgd",
+   "batch_size": 16
+  },
+  {
+   "model": "ResNet101",
+   "learning_rate": 0.0001,
+   "dropout_rate": 0.5,
+   "optimizer": "sgd",
+   "batch_size": 16
+  },
+  {
+   "model": "DenseNet121",
+   "learning_rate": 0.001,
+   "dropout_rate": 0.5,
+   "optimizer": "sgd",
+   "batch_size": 16
+  },
+  {
+   "model": "InceptionV3",
+   "learning_rate": 0.0003,
+   "dropout_rate": 0.3,
+   "optimizer": "adam",
+   "batch_size": 32
+  },
+  {
+   "model": "MobileNetV2",
+   "learning_rate": 0.0003,
+   "dropout_rate": 0.5,
+   "optimizer": "adam",
+   "batch_size": 16
+  }
+ ],
+ "tuning_custom": {
+  "model": "Custom-ENB5",
+  "learning_rate": 0.0001,
+  "dropout_rate": 0.3,
+  "optimizer": "rmsprop",
+  "batch_size": 32
+ },
+ "tuning_ml": [
+  "CatBoost",
+  "NaiveBayes",
+  "RandomForest",
+  "SVM",
+  "XGBoost"
+ ],
+ "kd": {
+  "students": [
+   "EfficientNetB0",
+   "EfficientNetB2",
+   "MobileNetV2"
+  ],
+  "configs": [
+   "D201",
+   "ENB5",
+   "ENB5+D201",
+   "ENB5+IRV2",
+   "ENB5+IRV2+D201",
+   "ENB5+IRV2+R50",
+   "ENB5+R50",
+   "IRV2",
+   "IRV2+D201",
+   "IRV2+R50",
+   "none",
+   "R50"
+  ],
+  "teachers": [
+   "Custom-ENB5",
+   "DenseNet201",
+   "InceptionResNetV2",
+   "ResNet50",
+   "_ensemble_A",
+   "_ensemble_B"
+  ],
+  "sweep_points": [
+   "T2_a0.1",
+   "T2_a0.3",
+   "T2_a0.5",
+   "T3_a0.1",
+   "T3_a0.5",
+   "T5_a0.1",
+   "T5_a0.3",
+   "T5_a0.5"
+  ],
+  "temperature": 3.0,
+  "alpha_main": 0.3,
+  "sweep_T": [
+   2.0,
+   3.0,
+   5.0
+  ],
+  "sweep_alpha": [
+   0.1,
+   0.3,
+   0.5
+  ],
+  "final": {
+   "student": "EfficientNetB0",
+   "config": "ENB5+R50",
+   "T": 3.0,
+   "alpha": 0.5
+  }
+ }
+}

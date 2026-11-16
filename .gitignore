@@ -9,3 +9,8 @@
 
 # Jupyter autosave checkpoints
 **/.ipynb_checkpoints/
+# The corrected split is rebuilt from Original Dataset by scripts/build_corrected_split.py;
+# only its manifest is tracked.
+SplittedDatasetV2/
+!SplittedDatasetV2/split_manifest.csv
+_rerun_logs/
