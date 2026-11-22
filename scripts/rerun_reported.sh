@@ -67,12 +67,34 @@ echo "data        : $OSTEO_DATA_DIR"
 # ── 2. set the old results aside, once ──────────────────────────────────────
 if want archive; then
   say "archiving the results of the leaky split"
+  # Renaming a directory on /mnt/d fails while any process holds a handle inside it, which on this
+  # machine means a Jupyter kernel left running from an earlier session. Moving the contents instead
+  # usually succeeds, and if even that fails the holder has to go before training can start.
+  archive_dir() {
+    local src="$1" dst="$2"
+    mv "$src" "$dst" 2>/dev/null && return 0
+    mkdir -p "$dst" 2>/dev/null || return 1
+    if (shopt -s dotglob nullglob; mv "$src"/* "$dst"/ 2>/dev/null); then
+      rmdir "$src" 2>/dev/null || true
+      return 0
+    fi
+    return 1
+  }
+
   for stage in teacher tuning kd; do
-    if [ -d "$REPO/$stage/results" ] && [ ! -d "$REPO/$stage/results$ARCHIVE_SUFFIX" ]; then
-      mv "$REPO/$stage/results" "$REPO/$stage/results$ARCHIVE_SUFFIX"
+    if [ ! -d "$REPO/$stage/results" ] || [ -d "$REPO/$stage/results$ARCHIVE_SUFFIX" ]; then
+      echo "  $stage: nothing to archive"
+      continue
+    fi
+    if archive_dir "$REPO/$stage/results" "$REPO/$stage/results$ARCHIVE_SUFFIX"; then
       echo "  $stage/results -> $stage/results$ARCHIVE_SUFFIX"
     else
-      echo "  $stage: nothing to archive"
+      echo "ERROR: cannot move $stage/results aside; something is holding a file inside it." >&2
+      echo "       Usually a Jupyter kernel from an earlier session:" >&2
+      echo "         pkill -f jupyter; pkill -f ipykernel" >&2
+      echo "       Then close any editor or Explorer window on that folder and run this script again." >&2
+      command -v lsof >/dev/null && lsof +D "$REPO/$stage/results" 2>/dev/null | head -5 >&2
+      exit 1
     fi
   done
 fi
