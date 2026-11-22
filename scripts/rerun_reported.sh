@@ -22,6 +22,12 @@ VENV="${OSTEO_VENV:-/mnt/d/FA011/tf_gpu_env}"
 DATA="${OSTEO_SPLIT_DIR:-$REPO/SplittedDatasetV2}"
 LOGS="$REPO/_rerun_logs"
 ARCHIVE_SUFFIX="_leaky_split"
+# Where each stage writes. Setting OSTEO_RESULTS_NAME to something else leaves the old results exactly
+# where they are, which is the way out when a Windows process holds a file inside them and the archive
+# step cannot move them aside.
+RESULTS_NAME="${OSTEO_RESULTS_NAME:-results}"
+export OSTEO_OUTPUT_DIR="$RESULTS_NAME"
+export OSTEO_TUNING_DIR="$REPO/tuning/$RESULTS_NAME"
 STAGES=("$@")
 [ ${#STAGES[@]} -eq 0 ] && STAGES=(all)
 
@@ -63,9 +69,10 @@ fi
 [ -d "$DATA/train" ] || { echo "no dataset at $DATA - run the split stage first" >&2; exit 1; }
 export OSTEO_DATA_DIR="$DATA"
 echo "data        : $OSTEO_DATA_DIR"
+echo "results     : <stage>/$RESULTS_NAME"
 
 # ── 2. set the old results aside, once ──────────────────────────────────────
-if want archive; then
+if want archive && [ "$RESULTS_NAME" = "results" ]; then
   say "archiving the results of the leaky split"
   # Renaming a directory on /mnt/d fails while any process holds a handle inside it, which on this
   # machine means a Jupyter kernel left running from an earlier session. Moving the contents instead
@@ -101,12 +108,13 @@ fi
 
 # Running a single stage without archiving first would silently keep the old results: every run is
 # skipped when its metrics.json already exists, so nothing would be retrained.
-if ! want keepresults; then
+if ! want keepresults && [ "$RESULTS_NAME" = "results" ]; then
   for stage in teacher tuning kd; do
     want "$(printf '%s' "$stage" | sed 's/^teacher$/screening/')" || continue
     if [ -d "$REPO/$stage/results" ] && [ ! -d "$REPO/$stage/results$ARCHIVE_SUFFIX" ]; then
       echo "ERROR: $stage/results still holds the results of the old split." >&2
-      echo "       Run the archive stage first, or pass keepresults to train into it deliberately:" >&2
+      echo "       Run the archive stage first, pass keepresults to train into it deliberately," >&2
+      echo "       or set OSTEO_RESULTS_NAME=results_v2 to write beside it and leave it alone:" >&2
       echo "         ./scripts/rerun_reported.sh archive $* " >&2
       exit 1
     fi
