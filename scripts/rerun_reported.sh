@@ -123,7 +123,29 @@ fi
 
 # ── 3. Stage II, the screened architectures ─────────────────────────────────
 if want screening; then
-  OSTEO_MODELS=all run_notebook screening "$REPO/teacher" Teacher_Screening_EarlyStopping.ipynb
+  # One process per architecture. TensorFlow does not return host memory between models, so running
+  # all seventeen in a single kernel exhausts RAM part way through and the kernel is killed; the
+  # tuning and distillation stages already work this way.
+  say "screened architectures, one process each"
+  mapfile -t SCREEN_MODELS < <(python - "$REPO/scripts/reported_runs.json" <<'PY'
+import json, sys
+for name in json.load(open(sys.argv[1]))["screening"]:
+    print(name)
+PY
+)
+  for model in "${SCREEN_MODELS[@]}"; do
+    if [ -f "$REPO/teacher/$RESULTS_NAME/$model/metrics.json" ]; then
+      echo "  $model: already finished"
+      continue
+    fi
+    say "screening: $model"
+    ( cd "$REPO/teacher" && OSTEO_MODELS="$model" \
+      jupyter nbconvert --to notebook --execute \
+        --ExecutePreprocessor.kernel_name=python3 --ExecutePreprocessor.timeout=-1 \
+        --output-dir "$LOGS" --output "executed_screening_${model}.ipynb" \
+        Teacher_Screening_EarlyStopping.ipynb ) 2>&1 | tee "$LOGS/screening_${model}.log" || \
+      echo "WARNING: $model did not finish; re-run the script to retry it" >&2
+  done
 fi
 
 # ── 4. Stage III, each architecture at the configuration the paper reports ──
