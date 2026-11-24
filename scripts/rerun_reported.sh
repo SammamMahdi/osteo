@@ -181,6 +181,24 @@ PY
       --ExecutePreprocessor.kernel_name=python3 --ExecutePreprocessor.timeout=-1 \
       --output-dir "$LOGS" --output "executed_tuning_custom_ml.ipynb" \
       Tuning_GridSearch_And_Baselines.ipynb ) 2>&1 | tee "$LOGS/tuning_custom_ml.log"
+
+  # That notebook reports a failed Custom-ENB5 worker by printing it and carrying on, so nbconvert
+  # exits 0 and the stage looks fine while the model the distillation teachers are drawn from is
+  # missing. Retry it once in the notebook's own kernel, which needs no worker subprocess.
+  if [ ! -f "$REPO/tuning/$RESULTS_NAME/Custom-ENB5/metrics.json" ]; then
+    echo "Custom-ENB5 did not finish through the worker; retrying in the notebook's own kernel" >&2
+    ( cd "$REPO/tuning" && \
+      OSTEO_MODELS="," OSTEO_RUN_CUSTOM=1 OSTEO_RUN_ML=0 OSTEO_WORKER_MODE=0 \
+      jupyter nbconvert --to notebook --execute \
+        --ExecutePreprocessor.kernel_name=python3 --ExecutePreprocessor.timeout=-1 \
+        --output-dir "$LOGS" --output "executed_tuning_custom_retry.ipynb" \
+        Tuning_GridSearch_And_Baselines.ipynb ) 2>&1 | tee "$LOGS/tuning_custom_retry.log"
+  fi
+  if [ ! -f "$REPO/tuning/$RESULTS_NAME/Custom-ENB5/metrics.json" ]; then
+    echo "ERROR: Custom-ENB5 is still missing. The distillation stage loads it as a teacher, so it" >&2
+    echo "       has to succeed first; see $LOGS/tuning_custom_retry.log." >&2
+    exit 1
+  fi
 fi
 
 # ── 5. Stage IV, teachers, 36 distillations, the sweep ──────────────────────
