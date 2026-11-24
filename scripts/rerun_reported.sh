@@ -28,6 +28,9 @@ ARCHIVE_SUFFIX="_leaky_split"
 RESULTS_NAME="${OSTEO_RESULTS_NAME:-results}"
 export OSTEO_OUTPUT_DIR="$RESULTS_NAME"
 export OSTEO_TUNING_DIR="$REPO/tuning/$RESULTS_NAME"
+# Passed through to every stage: OSTEO_JIT=0 compiles without XLA, whose cuDNN autotuner
+# segfaults on some EfficientNet shapes at batch 32.
+export OSTEO_JIT="${OSTEO_JIT:-auto}"
 STAGES=("$@")
 [ ${#STAGES[@]} -eq 0 ] && STAGES=(all)
 
