@@ -59,8 +59,17 @@ add(check("teachers and ensembles", {t: kd / "teachers" / t / "metrics.json" for
 students = {f"{s} [{c}]": kd / s / c / "metrics.json"
             for s in SPEC["kd"]["students"] for c in SPEC["kd"]["configs"]}
 add(check("student runs", students))
-add(check("temperature sweep", {t: kd / "_sweep" / "EfficientNetB0" / "ENB5+R50" / t / "metrics.json"
-                                for t in SPEC["kd"]["sweep_points"]}))
+# The sweep follows whichever student and teacher configuration scored highest, which is not
+# necessarily the pair the paper reported, so it is found rather than assumed.
+sweep_root = next((d for d in sorted(kd.glob("_sweep/*/*")) if d.is_dir()), None)
+if sweep_root is None:
+    print(f"  {'temperature sweep':<26} {'0/8':>7}")
+    print("    left: not started")
+    total_all += 8
+else:
+    print(f"  (sweeping {sweep_root.parent.name} [{sweep_root.name}])")
+    add(check("temperature sweep", {t: sweep_root / t / "metrics.json"
+                                    for t in SPEC["kd"]["sweep_points"]}))
 
 print(f"\noverall: {total_done}/{total_all} runs finished")
 if total_done < total_all:
